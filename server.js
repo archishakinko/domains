@@ -17,6 +17,7 @@ const paymentService = require('./services/paymants')(dbcontext.payment, dbconte
 
 const apiController = require('./controllers/api')(usersService, domainService, paymentService);
 var app = express();
+app.set('port',(process.env.PORT || 5000));
 
 app.use(require('cookie-parser')());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -49,6 +50,6 @@ app.use('/api', apiController);
 dbcontext.sequelize
     .sync()
     .then(() => {
-        app.listen(5858, () => console.log('Running on http://localhost:5858'));
+        app.listen(app.get('port'), () => console.log('Running on http://localhost:5858'));
     })
     .catch((err) => console.log(err));
